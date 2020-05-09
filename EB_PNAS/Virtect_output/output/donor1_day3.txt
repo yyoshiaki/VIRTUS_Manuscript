@@ -1,0 +1,21 @@
+15003690 *
+  12832 gi|12084981|lcl|HPV71REF.1|_Human_papillomavirus_71_(HPV71),_complete_genome
+   4159 gi|2911558|lcl|HPV77REF.1|_Human_papillomavirus_77_(HPV77),_complete_genome
+    614 gi|6970427|lcl|HPV82REF.1|_Human_papillomavirus_82_(HPV82),_complete_genome
+    981 NC_000898.1_Human_herpesvirus_6B,_complete_genome
+    731 NC_001664.2_Human_herpesvirus_6A,_complete_genome
+   3482 NC_001669.1_Simian_virus_40,_complete_genome
+ 839841 NC_001672.1_Tick-borne_encephalitis_virus,_complete_genome
+    414 NC_001798.1_Human_herpesvirus_2,_complete_genome
+ 249446 NC_002645.1_Human_coronavirus_229E,_complete_genome
+1317367 NC_004102.1_Hepatitis_C_virus_genotype_1,_complete_genome
+ 113984 NC_007605.1_Human_herpesvirus_4_complete_wild_type_genome
+  31246 NC_009334.1_Human_herpesvirus_4,_complete_genome
+6024024 NC_009823.1_Hepatitis_C_virus_genotype_2,_complete_genome
+ 750401 NC_009827.1_Hepatitis_C_virus_genotype_6,_complete_genome
+   1897 NC_014093.1_Torque_teno_midi_virus_2,_complete_genome
+ 394820 NC_015521.1_Cutthroat_trout_virus,_complete_genome
+ 286296 NC_018382.1_Bat_hepevirus,_complete_genome
+  87755 NC_018464.1_Shamonda_virus_N_and_NSs_genes,_segment_S,_genomic_RNA,_isolate_Ib_An_5550
+   9009 NC_018476.1_Simbu_virus_RdRp_gene_for_RNA-dependent_RNA_polymerase,_segment_L,_genomic_RNA,_isolate_SA_Ar_53
+   2770 NC_022518.1_Human_endogenous_retrovirus_K113_complete_genome

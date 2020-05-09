@@ -1,0 +1,1 @@
+python ./mk_virus_tx2gene.py ./data/NC_001806.1.transcipts.fasta ./data/NC_001806.1.tx2gene.txt

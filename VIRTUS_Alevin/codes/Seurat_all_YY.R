@@ -1,0 +1,188 @@
+library(Seurat)
+library(tidyverse)
+library(gridExtra)
+library(EnhancedVolcano)
+
+setwd('/Users/yasumizuyoshiaki/Google\ ドライブ/infomatics/VIRTUS/Hara/VIRTUS_Alevin/codes')
+group.name <- c("uninfected_rep1","uninfected_rep2","one_rep1","one_rep2","three_rep1","three_rep2","five_rep1","five_rep2")
+time.list <- c("uninfected","1hpi","3hpi","5hpi")
+rep.list <- c("rep1","rep2")
+viral.gene.set <- as.character(read.table("./data/NC_001806.1.tx2gene.txt")[,2])
+
+#CellvGene.txt?̃p?X?œǂݍ???
+for (i in group.name){
+  path <- paste0("../summary/",i,"/alevin_result_human/CellvGene.txt")
+  assign(paste0(i,"_human"),read.table(path))
+}
+
+for (i in group.name[3:length(group.name)]){
+  path <- paste0("../summary/",i,"/alevin_result_virus/CellvGene.txt")
+  assign(paste0(i,"_virus"),read.table(path))
+}
+
+#infected?ł?human??virus?̃e?[?u????merge
+for (i in 3:8){
+  eval(parse(text=paste0(
+    group.name[i],"_merge","<-","merge(",group.name[i],"_human,",group.name[i],"_virus,by=0, all=T)"
+  )))
+  eval(parse(text=paste0(
+    group.name[i],"_merge","[is.na(",group.name[i],"_merge)]","<- 0"
+  )))
+}
+
+uninfected.name <- paste0(group.name[c(1,2)],"_human")
+f <- ls()
+infected.name <- f[grep("merge",f)]
+remove(f)
+
+#input_name?Ƀe?[?u?????̃??X?g?Anames?ɌQ??????????
+input_name <- c(uninfected.name,infected.name)
+
+#input_name?????e?[?u???̃??X?g??????
+eval(parse(text=paste0(
+  "input.list <- list(",str_c(input_name,collapse=","),")"  
+)))
+
+#?]?u
+input.list.t <- list()
+for (i in input.list){
+  input.list.t <- c(input.list.t,list(as.data.frame(t(i))))
+}
+remove(input.list)
+
+#CreateSeuratObject
+seurat.list <- list()
+for (i in 1:length(input.list.t)){
+  seurat.list <- c(seurat.list, list(CreateSeuratObject(counts = input.list.t[[i]],project=input_name[i],min.cells=5)))
+  seurat.list[[i]]$group <- input_name[i]
+  seurat.list[[i]]$time <- rep(time.list,each=2)[i]
+  seurat.list[[i]]$group <- rep(rep.list,4)[i]
+}
+names(seurat.list) <- input_name
+
+preprocessing <- function(x){
+  x[["percent.mt"]] <- PercentageFeatureSet(x,pattern="^MT.")
+  x <- NormalizeData(x,normalization.method = "LogNormalize",scale.factor = 10000)
+  x <- FindVariableFeatures(x,selection.method = "vst",nfeatures=4000)
+  all.genes <- rownames(x)
+  x <- ScaleData(x,features=all.genes)
+  return(x)
+}
+
+seurat.list <- lapply(seurat.list,preprocessing)
+
+anchors <- FindIntegrationAnchors(object.list = seurat.list,dims=1:30)
+integrated <- IntegrateData(anchorset = anchors,dims=1:30, normalization.method = "LogNormalize")
+
+integrated <- ScaleData(integrated,verbose=F)
+
+# Get mean expression of genes of interest per cell
+mean.exp <- log1p(colMeans(x = as.data.frame(integrated@assays$RNA@data)[viral.gene.set, ], na.rm = TRUE))
+
+# Add mean expression values in 'object@meta.data$gene.set.score'
+if (all(names(x = mean.exp) == rownames(x = integrated@meta.data))) {
+  cat("Cell names order match in 'mean.exp' and 'integrated@meta.data':\n", 
+      "adding gene set mean expression values in 'integrated@meta.data$gene.set.score'")
+  integrated@meta.data$HHV1.transcripts <- mean.exp
+}
+
+integrated <- RunPCA(integrated,npcs=30,seed.use=100)
+
+DimHeatmap(integrated, dims = 1:15, cells = 500, balanced = TRUE)
+DimHeatmap(integrated, dims = 16:30, cells = 500, balanced = TRUE)
+
+integrated <- RunUMAP(integrated,dims=1:30,seed.use = 100)
+p1 <- FeaturePlot(object = integrated, features= "HHV1.transcripts",pt.size = 1, sort.cell = TRUE, 
+                  cols = c("lightgrey", "red"), min.cutoff = 0.5)
+p1 <- p1 + labs(title = "HHV1 genes mean expression")
+p2 <- FeaturePlot(object = integrated, features= "RASD1",pt.size = 1, min.cutoff = 0.5, 
+                  max.cutoff = 2.5, sort.cell = TRUE)
+p2 <- p2 + labs(title ="Host gene expression (RASD1)")
+p1 | p2
+# ggsave("img_yy/UMAP_HHV1.pdf", width = 14, height = 6)
+
+FeaturePlot(object = integrated, features= "RASD1",pt.size = 1, min.cutoff = 0.5, 
+            max.cutoff = 2.5, sort.cell = TRUE)
+
+p1 <- DimPlot(integrated,reduction="umap",group.by="group",pt.size = 1)
+p2 <- DimPlot(integrated,reduction="umap",group.by="time",pt.size = 1)
+
+
+# Plot mean expression using Seurat::FeaturePlot()
+p3 <- FeaturePlot(object = integrated, features= "HHV1.transcripts",pt.size = 1)
+p3 <- p3 + labs(title = "")
+
+integrated <- FindNeighbors(integrated,reduction="pca",dims=1:30)
+integrated <- FindClusters(integrated,resolution = 0.5)
+p4 <- DimPlot(integrated,reduction="umap",pt.size = 1)
+p4
+
+all.marker <- FindAllMarkers(integrated,only.pos = T,min.pct = 0.25, logfc.threshold = 0.25)
+m <- all.marker %>% group_by(cluster) %>% top_n(n=100,wt=avg_logFC)
+# write.table(m,"markertop100.tsv",quote=F,sep="\t")
+
+hist(integrated$HHV1.transcripts, breaks = 100, labels = FALSE, axes = TRUE)
+
+ggplot(data=integrated@meta.data, aes(HHV1.transcripts)) + 
+  geom_histogram() +
+  geom_vline(xintercept=0.5, size=1.5, linetype = "longdash")
+# ggsave("img_yy/hist_HHV1.pdf", width = 4, height = 4)
+
+integrated@meta.data$HHV1.infected <- integrated$HHV1.transcripts > 0.5
+
+DimPlot(integrated,reduction="umap",group.by="HHV1.infected",pt.size = 1)
+
+Idents(integrated) <- "HHV1.infected"
+markers <- FindMarkers(integrated, ident.1 = TRUE, ident.2 = FALSE, only.pos = FALSE, 
+                       logfc.threshold = 0.05, )
+head(markers, n = 15)
+
+head(markers[markers$avg_logFC > 0,], n = 15)
+
+rownames(head(markers[markers$avg_logFC > 0,], n = 15))
+
+
+FeaturePlot(integrated, features = rownames(head(markers[markers$avg_logFC > 0,], n = 15)), cols = c("grey", "red"))
+
+FeaturePlot(integrated, features = c("MT.RNR1", "MT.ATP6", "C11orf96", "BCL2L11"), cols = c("grey", "red"), pt.size = 1, min.cutoff = 0.5, 
+            max.cutoff = 6, sort.cell = TRUE)
+
+f.size <- 20
+p1 <- FeaturePlot(object = integrated, features= "MT.RNR1",pt.size = 1, min.cutoff = 2.5,
+                  max.cutoff = 5, sort.cell = TRUE, cols = c("grey", "red")) + 
+  theme(text = element_text(size = f.size))
+
+p2 <- FeaturePlot(object = integrated, features= "MT.ATP6",pt.size = 1, min.cutoff = 3.5,
+            max.cutoff = 5, sort.cell = TRUE, cols = c("grey", "red")) + 
+  theme(text = element_text(size = f.size))
+
+p3 <- FeaturePlot(object = integrated, features= "TUBA1B",pt.size = 1, min.cutoff = 0.3,
+            max.cutoff = 7, sort.cell = TRUE, cols = c("grey", "red")) + 
+  theme(text = element_text(size = f.size))
+
+p4 <- FeaturePlot(object = integrated, features= "H2AZ1",pt.size = 1, min.cutoff = .3,
+            max.cutoff = 8, sort.cell = TRUE, cols = c("grey", "red")) + 
+  theme(text = element_text(size = f.size))
+
+p1 | p2 | p3 | p4
+ggsave("img_yy/UMAP_HHV1_sup.pdf", width = 28, height = 6)
+
+
+EnhancedVolcano(markers,
+                lab = rownames(markers),
+                x = 'avg_logFC',
+                y = 'p_val_adj',
+                xlim = c(-1, 1),
+                pCutoff = 0.05,
+                FCcutoff = 0.3,
+                transcriptPointSize = 4,
+                legend = FALSE,
+                colAlpha = .7,
+)
+# ggsave("img_yy/vol.pdf", width = 6, height = 6)
+
+DimPlot(integrated,reduction="umap",group.by="HHV1.infected",pt.size = .31, order = FALSE) |
+  DimPlot(integrated,reduction="umap",group.by="time",pt.size = .3, order = FALSE) |
+  DimPlot(integrated,reduction="umap",group.by="group",pt.size = .3, order = FALSE)
+ggsave("img_yy/umap_sup.pdf", width = 18, height = 4)
+

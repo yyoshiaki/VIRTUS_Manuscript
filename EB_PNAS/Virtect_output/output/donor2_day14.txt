@@ -1,0 +1,22 @@
+18475722 *
+   2492 NC_000898.1_Human_herpesvirus_6B,_complete_genome
+   1808 NC_001664.2_Human_herpesvirus_6A,_complete_genome
+   1477 NC_001669.1_Simian_virus_40,_complete_genome
+ 635982 NC_001672.1_Tick-borne_encephalitis_virus,_complete_genome
+    518 NC_001716.2_Human_herpesvirus_7,_complete_genome
+    492 NC_001798.1_Human_herpesvirus_2,_complete_genome
+ 194842 NC_002645.1_Human_coronavirus_229E,_complete_genome
+ 960034 NC_004102.1_Hepatitis_C_virus_genotype_1,_complete_genome
+  75577 NC_007605.1_Human_herpesvirus_4_complete_wild_type_genome
+  21133 NC_009334.1_Human_herpesvirus_4,_complete_genome
+5046568 NC_009823.1_Hepatitis_C_virus_genotype_2,_complete_genome
+ 573127 NC_009827.1_Hepatitis_C_virus_genotype_6,_complete_genome
+   1311 NC_014093.1_Torque_teno_midi_virus_2,_complete_genome
+ 305285 NC_015521.1_Cutthroat_trout_virus,_complete_genome
+ 214509 NC_018382.1_Bat_hepevirus,_complete_genome
+  95640 NC_018464.1_Shamonda_virus_N_and_NSs_genes,_segment_S,_genomic_RNA,_isolate_Ib_An_5550
+   8583 NC_018476.1_Simbu_virus_RdRp_gene_for_RNA-dependent_RNA_polymerase,_segment_L,_genomic_RNA,_isolate_SA_Ar_53
+   2640 NC_022518.1_Human_endogenous_retrovirus_K113_complete_genome
+  20104 gi|12084981|lcl|HPV71REF.1|_Human_papillomavirus_71_(HPV71),_complete_genome
+   2542 gi|2911558|lcl|HPV77REF.1|_Human_papillomavirus_77_(HPV77),_complete_genome
+    886 gi|6970427|lcl|HPV82REF.1|_Human_papillomavirus_82_(HPV82),_complete_genome

@@ -1,0 +1,31 @@
+34672748 *
+  12435 NC_000898.1_Human_herpesvirus_6B,_complete_genome
+    401 NC_001348.1_Human_herpesvirus_3,_complete_genome
+   8525 NC_001664.2_Human_herpesvirus_6A,_complete_genome
+   2383 NC_001669.1_Simian_virus_40,_complete_genome
+1014744 NC_001672.1_Tick-borne_encephalitis_virus,_complete_genome
+   3228 NC_001716.2_Human_herpesvirus_7,_complete_genome
+   1767 NC_001798.1_Human_herpesvirus_2,_complete_genome
+    421 NC_001806.1_Human_herpesvirus_1,_complete_genome
+ 296978 NC_002645.1_Human_coronavirus_229E,_complete_genome
+    550 NC_003977.1_Hepatitis_B_virus,_complete_genome
+1563943 NC_004102.1_Hepatitis_C_virus_genotype_1,_complete_genome
+ 210599 NC_007605.1_Human_herpesvirus_4_complete_wild_type_genome
+    582 NC_009333.1_Human_herpesvirus_8,_complete_genome
+  61758 NC_009334.1_Human_herpesvirus_4,_complete_genome
+6977921 NC_009823.1_Hepatitis_C_virus_genotype_2,_complete_genome
+    560 NC_009824.1_Hepatitis_C_virus_genotype_3,_genome
+ 940187 NC_009827.1_Hepatitis_C_virus_genotype_6,_complete_genome
+    521 NC_010708.1_Thottapalayam_virus_segment_M,_complete_sequence
+   2379 NC_014093.1_Torque_teno_midi_virus_2,_complete_genome
+ 475794 NC_015521.1_Cutthroat_trout_virus,_complete_genome
+ 320241 NC_018382.1_Bat_hepevirus,_complete_genome
+ 141253 NC_018464.1_Shamonda_virus_N_and_NSs_genes,_segment_S,_genomic_RNA,_isolate_Ib_An_5550
+  17936 NC_018476.1_Simbu_virus_RdRp_gene_for_RNA-dependent_RNA_polymerase,_segment_L,_genomic_RNA,_isolate_SA_Ar_53
+   8463 NC_022518.1_Human_endogenous_retrovirus_K113_complete_genome
+  81440 gi|12084981|lcl|HPV71REF.1|_Human_papillomavirus_71_(HPV71),_complete_genome
+   4432 gi|2911558|lcl|HPV77REF.1|_Human_papillomavirus_77_(HPV77),_complete_genome
+    860 gi|396940|lcl|HPV19REF.1|_Human_papillomavirus_19_(HPV19),_complete_genome
+    665 gi|5059324|lcl|HPV83REF.1|_Human_papillomavirus_83_(HPV83),_complete_genome
+   4394 gi|6970427|lcl|HPV82REF.1|_Human_papillomavirus_82_(HPV82),_complete_genome
+    751 gi|9627396|lcl|HPV9REF.1|_Human_papillomavirus_9_(HPV9),_complete_genome

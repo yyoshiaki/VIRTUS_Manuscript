@@ -1,0 +1,1 @@
+agat_convert_sp_gff2bed.pl --gff NC0070605.1.gff3 -o NC0070605.1.bed12

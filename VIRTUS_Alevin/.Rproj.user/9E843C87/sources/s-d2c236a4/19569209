@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1587020610657.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "19569209",
+    "lastKnownWriteTime" : 1587034092,
+    "last_content_update" : 1587034092,
+    "path" : "~/google-drive/infomatics/VIRTUS/Hara/VIRTUS_Alevin/codes/Seurat_all_YY.R",
+    "project_path" : "codes/Seurat_all_YY.R",
+    "properties" : {
+        "cursorPosition" : "102,0",
+        "scrollLine" : "65"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
